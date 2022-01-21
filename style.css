@@ -1,0 +1,16 @@
+/* Global */
+:root {
+  /* Color */
+  --color-white: #ffffff;
+  --color-cadet-blue: var(--color-cadet-blue);
+}
+
+/* Universal tags */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: 'Dongle', sans-serif;
+}

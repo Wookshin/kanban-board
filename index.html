@@ -14,9 +14,12 @@
       src="https://kit.fontawesome.com/497409b5d5.js"
       crossorigin="anonymous"
     ></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Dongle:wght@300;400;700&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Dongle:wght@300;400;700&family=Open+Sans:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
     <link rel="icon" type="image/png" href="imgs/favicon.png" />
     <link rel="stylesheet" href="style.css" />
     <script defer src="main.js"></script>
@@ -28,11 +31,33 @@
         <a href="#">Kaban board</a>
       </div>
     </header>
-    <section id="search">
-
+    <section id="register">
+      <input class="register__input" type="text" />
+      <button class="register__btn">register</button>
     </section>
-    <section id="result">
-
+    <section id="boards">
+      <div class="boards__btns">
+        <button class="btn-add">+</button>
+        <button class="btn-remove">-</button>
+      </div>
+      <div class="boards__container">
+        <div class="board">
+          <div class="board__header">A</div>
+          <div class="board__items">
+            <div class="item">To do 1</div>
+            <div class="item">To do 2</div>
+          </div>
+        </div>
+      </div>
+      <div class="boards__container">
+        <div class="board">
+          <div class="board__header">B</div>
+          <div class="board__items">
+            <div class="item">To do 3</div>
+            <div class="item">To do 4</div>
+          </div>
+        </div>
+      </div>
     </section>
   </body>
 </html>
