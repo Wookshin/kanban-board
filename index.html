@@ -33,28 +33,42 @@
     </header>
     <section id="register">
       <input class="register__input" type="text" />
-      <button class="register__btn">register</button>
+      <button class="register__btn">Add</button>
     </section>
     <section id="boards">
       <div class="boards__btns">
-        <button class="btn-add">+</button>
-        <button class="btn-remove">-</button>
+        <button class="btns-btn btn-add">
+          <i class="fas fa-plus-circle"></i>
+        </button>
+        <button class="btns-btn btn-remove">
+          <i class="fas fa-minus-circle"></i>
+        </button>
       </div>
       <div class="boards__container">
         <div class="board">
-          <div class="board__header">A</div>
+          <div class="board__header">Today TO-DO</div>
           <div class="board__items">
-            <div class="item">To do 1</div>
-            <div class="item">To do 2</div>
+            <div class="item">
+              <span class="item__content">To do 1</span>
+              <span><i class="far fa-trash-alt"></i></span>
+            </div>
+            <div class="item">
+              <span class="item__content">To do 2</span>
+              <span><i class="far fa-trash-alt"></i></span>
+            </div>
           </div>
         </div>
-      </div>
-      <div class="boards__container">
         <div class="board">
-          <div class="board__header">B</div>
+          <div class="board__header">ASAP TO-DO</div>
           <div class="board__items">
-            <div class="item">To do 3</div>
-            <div class="item">To do 4</div>
+            <div class="item">
+              <span class="item__content">To do 3</span>
+              <span><i class="far fa-trash-alt"></i></span>
+            </div>
+            <div class="item">
+              <span class="item__content">To do 4</span>
+              <span class="item__remove"><i class="far fa-trash-alt"></i></span>
+            </div>
           </div>
         </div>
       </div>

@@ -14,8 +14,10 @@
   --color-orange: #feb546;
   --color-black: #000000;
   --color-cadet-blue: #5f9ea0;
+  --color-light-cadet-blue: #5f9ea0c9;
   --color-dark-cadet-blue: #1f9ea0;
   --color-apricot: #fa9978;
+  --color-olive: #A39334;
 
   /* Font size */
   --font-large: 48px;
@@ -24,6 +26,9 @@
   --font-regular: 18px;
   --font-small: 16px;
   --font-micro: 14px;
+
+  /* Animation */
+  --animation-duration: 300ms;
 }
 
 /* Universal tags */
@@ -64,4 +69,75 @@ header {
 .logo__title {
   font-size: var(--font-large);
   padding-left: 10px;
+}
+
+/* register */
+#register {
+  display: flex;
+  margin: 20px 10px;
+  height: 40px;
+}
+.register__input {
+  min-width: 300px;
+}
+.register__btn {
+  outline: none;
+  width: 80px;
+  margin-left: 10px;
+  font-size: var(--font-semi-medium);
+  background-color: var(--color-olive);
+  color: var(--color-white);
+  border: 1px solid transparent;
+  transition: all var(--animation-duration) ease;
+}
+
+.register__btn:hover {
+  color: darkolivegreen;
+}
+
+/* boards */
+#boards {
+  margin: 20px 10px;
+}
+.boards__btns {
+  display: flex;
+  justify-content: flex-end;  
+  margin-right: 10px;
+}
+.btns-btn {
+  outline: none;
+  width: 40px;
+  font-weight: 800;
+  font-size: var(--font-medium);
+  color: var(--color-olive);
+  background-color: white;
+  border: none;
+  transition: all var(--animation-duration) ease;
+}
+.btns-btn:hover {
+  color: darkolivegreen;
+}
+.boards__container {
+  display: flex;
+}
+.board {
+  border: 1px solid black;
+  margin-right: 10px;
+  width: 400px;
+}
+.board__header {
+  background-color: var(--color-light-cadet-blue);
+  color: var(--color-light-white);
+  text-align: center;
+  font-size: var(--font-medium)
+}
+.item {
+  padding: 10px;
+  font-size: var(--font-medium);
+  display: flex;
+  justify-content: space-between;
+}
+
+.fa-trash-alt {
+  vertical-align: middle;
 }
