@@ -29,6 +29,7 @@
 
   /* Animation */
   --animation-duration: 300ms;
+  --transition-default: all var(--animation-duration) ease;
 }
 
 /* Universal tags */
@@ -72,12 +73,12 @@ header {
 .logo__icon {
   font-size: var(--font-medium);
   padding-bottom: 4px;
-  transition: all var(--animation-duration) ease;
+  transition: var(--transition-default);
 }
 .logo__title {
   font-size: var(--font-large);
   padding-left: 10px;
-  transition: all var(--animation-duration) ease;
+  transition: var(--transition-default);
 }
 
 /* register */
@@ -97,7 +98,7 @@ header {
   background-color: var(--color-olive);
   color: var(--color-white);
   border: 1px solid transparent;
-  transition: all var(--animation-duration) ease;
+  transition: var(--transition-default);
   cursor: pointer;
 }
 
@@ -122,7 +123,7 @@ header {
   color: var(--color-olive);
   background-color: white;
   border: none;
-  transition: all var(--animation-duration) ease;
+  transition: var(--transition-default);
   cursor: pointer;
 }
 .boards__btns button:hover {
@@ -143,15 +144,22 @@ header {
   background-color: var(--color-light-cadet-blue);
   color: var(--color-light-white);
   text-align: center;
-  font-size: var(--font-medium)
+  font-size: var(--font-medium);
+  transition: var(--transition-default);;
+  cursor: pointer;
 }
+
+.board__header:hover {
+  color: var(--color-olive);
+}
+
 .item {
   padding: 10px;
   font-size: var(--font-medium);
   display: flex;
   justify-content: space-between;
   opacity: 1;
-  transition: all var(--animation-duration) ease;
+  transition: var(--transition-default);
 }
 
 .item.create {
@@ -160,7 +168,7 @@ header {
 
 .item__remove {
   margin: 0px 10px;
-  transition: all var(--animation-duration) ease;
+  transition: var(--transition-default);
   cursor: pointer;
 }
 
