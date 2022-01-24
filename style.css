@@ -121,9 +121,10 @@ header {
   display: flex;
 }
 .board {
-  border: 1px solid black;
   margin-right: 10px;
+  box-shadow: 5px 5px 10px var(--color-light-grey);
   width: 400px;
+  height: 100%;
 }
 .board__header {
   background-color: var(--color-light-cadet-blue);
@@ -136,6 +137,12 @@ header {
   font-size: var(--font-medium);
   display: flex;
   justify-content: space-between;
+  opacity: 1;
+  transition: all var(--animation-duration) ease;
+}
+
+.item.create {
+  opacity: 0;
 }
 
 .fa-trash-alt {
