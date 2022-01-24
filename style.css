@@ -147,10 +147,15 @@ header {
   font-size: var(--font-medium);
   transition: var(--transition-default);;
   cursor: pointer;
+  border: 3px solid transparent
 }
 
 .board__header:hover {
   color: var(--color-olive);
+}
+
+.board__header.active {
+  border: 3px solid var(--color-dark-grey);
 }
 
 .item {
