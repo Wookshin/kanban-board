@@ -13,13 +13,23 @@ registerBtn.addEventListener('click', () => {
   addToDoAtFirstBoard();
 })
 
+/* 휴지통 아이콘을 누르면 해당 아이템이 삭제된다 */
+var boardsContainer = document.querySelector('.boards__container');
+boardsContainer.addEventListener('click', e => {
+  if (e.target.matches('.fa-trash-alt')) {
+    var item = e.target.parentElement.parentElement;
+    console.log(e.target);
+    item.parentElement.removeChild(item);
+  }
+})
+
 function addToDoIntoBoard(board, todo) {
   let item = document.createElement('div');
   item.classList.add('item');
   item.classList.add('create');
   item.innerHTML = `
     <span class="item__content">${todo}</span>
-    <span><i class="far fa-trash-alt"></i></span>
+    <span class="item__remove"><i class="far fa-trash-alt"></i></span>
   `;
 
   board.children[1].appendChild(item);
