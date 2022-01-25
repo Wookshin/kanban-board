@@ -147,6 +147,12 @@ header {
   width: 400px;
   height: 100%;
   border-radius: var(--border-radius);
+  border: 3px solid transparent;
+  transition: var(--transition-default);
+}
+
+.board.active {
+  border: 3px solid var(--color-dark-grey);
 }
 
 .board__header {
@@ -154,9 +160,8 @@ header {
   color: var(--color-white);
   text-align: center;
   font-size: var(--font-medium);
-  transition: var(--transition-default);;
+  transition: var(--transition-default);
   cursor: pointer;
-  border: 3px solid transparent;
   border-top-right-radius: var(--border-radius);
   border-top-left-radius: var(--border-radius);
   user-select: none;
@@ -166,8 +171,8 @@ header {
   color: var(--color-olive);
 }
 
-.board__header.active {
-  border: 3px solid var(--color-dark-grey);
+.header__title {
+  outline: none;
 }
 
 .board__items.dragging .item.empty {
