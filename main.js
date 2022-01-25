@@ -5,6 +5,8 @@ var registerInput = document.querySelector('.register__input');
 var registerBtn = document.querySelector('.register__btn');
 var boardsContainer = document.querySelector('.boards__container');
 var boardHeaders = document.querySelectorAll('.board__header');
+var _dragged;
+var _dropzone;
 
 /* 텍스트 박스에 To-do를 입력 후 엔터를 쳤을 때 active Board Or 첫번째 Board에 반영된다 */
 registerInput.addEventListener('keydown', e => {
@@ -41,41 +43,133 @@ boardsContainer.addEventListener('click', e => {
   }
 })
 
-function addToDoIntoBoard(board, todo) {
-  let item = document.createElement('div');
-  item.classList.add('item');
-  item.classList.add('create');
-  item.innerHTML = `
-    <span class="item__content">${todo}</span>
-    <span class="item__remove"><i class="far fa-trash-alt"></i></span>
-  `;
+/* Todo를 드래그하여 다른 Board로 옮길 수 있다 */ 
+boardsContainer.addEventListener('dragstart', e => {
+  _dragged = e.target;  
+  e.target.style.opacity = .5;
+}, false);
 
-  board.children[1].appendChild(item);
+boardsContainer.addEventListener('dragend', e => {
+  e.target.style.opacity = "";
+}, false);
+
+boardsContainer.addEventListener('dragover', e => {
+  e.preventDefault();
+}, false);
+
+boardsContainer.addEventListener('dragenter', e => {
+  e.preventDefault();
+  console.log('dragenter1', e.target);
+  var target = getEnterDropZone(e.target);
+  console.log('dragenter2', target);
+  
+  if (!target || target === _dragged.parentElement) {
+    _dropzone?.classList.remove('dragging');
+    _dropzone = null;
+    return;
+  }
+
+  _dropzone?.classList.remove('dragging');
+  _dropzone = target;
+  target.classList.add('dragging');
+}, false);
+
+boardsContainer.addEventListener('dragleave', e => {
+  e.preventDefault();
+}, false);
+
+boardsContainer.addEventListener('drop', e => {
+  e.preventDefault();
+  console.log("drop");
+  _dropzone?.classList.remove('dragging');
+  if (!_dropzone) {
+    return;
+  }
+  console.log("_dragged", _dragged);
+  console.log("_dropzone", _dropzone);
+
+  addTodoIntoBoard(_dropzone, _dragged);
+  _dragged = null;
+  _dropzone = null;
+}, false);
+
+function addTodoIntoBoard(board, todo) {
+  let item = typeof todo === 'string' ? createTodoItem(todo) : todo;
+  let emptyItem = board.lastElementChild;
+  board.insertBefore(item, emptyItem);
   setTimeout(() => {
     item.classList.remove('create');
   }, 100);   
 }
 
-function addToDoBySelector(selector) {
+function createTodoItem(todo) {
+  let item = document.createElement('div');
+  item.classList.add('item');
+  item.classList.add('create');
+  item.draggable = true;
+  item.innerHTML = `
+    <span class="item__content">${todo}</span>
+    <span class="item__remove"><i class="far fa-trash-alt"></i></span>
+  `;
+  return item;
+}
+
+function addTodoBySelector(selector) {
   let todo = registerInput.value;
   if (todo === '') return;
   let firstBoard = document.querySelector(selector);
-  addToDoIntoBoard(firstBoard, todo)
+  addTodoIntoBoard(firstBoard, todo)
   registerInput.value = '';
 }
 
-function addToDoByElement(elem) {
+function addTodoByElement(elem) {
   let todo = registerInput.value;
-  addToDoIntoBoard(elem, todo)
+  if (todo === '') return;
+  addTodoIntoBoard(elem, todo)
   registerInput.value = '';
 }
 
 function addToDo() {  
-  var activeBoard = document.querySelector('.board__header.active');
+  var activeHeader = document.querySelector('.board__header.active');
 
-  if (activeBoard == null) {
-    addToDoBySelector('.board');
+  if (activeHeader == null) {
+    addTodoBySelector('.board__items');
   } else {
-    addToDoByElement(activeBoard.parentElement);
+    addTodoByElement(activeHeader.parentElement.children[1]);
   }
 }
+
+function getEnterDropZone(target) {
+  let dropZone = null; 
+
+  if (target.matches('.board')) {
+    dropZone = target.children[1];
+  }
+  else if (target.matches('.board__items')) {
+    dropZone = target;
+  } else if (target.matches('.item')) {
+    dropZone = target.parentElement;
+  } else if (target.matches('.item__content')
+  || target.matches('.item__remove')) {
+    dropZone = target.parentElement.parentElement;
+  } else if (target.matches('.fa-trash-alt')) {
+    dropZone = target.parentElement.parentElement.parentElement;
+  } 
+
+  return dropZone;
+}
+
+function getLeaveDropZone(target) {
+  let dropzone = null;
+
+  if (target.matches('.dragging')) {
+    dropzone = target;
+  } else if (target.matches('.board__header')) {
+    dropzone = target.parentElement.children[1];
+  } else if (target.matches('.board')) {
+    dropzone = target.children[1];
+  }
+
+  return dropzone;
+}
+

@@ -9,6 +9,7 @@
   --color-dark-grey: #4d4d4d;
   --color-grey: #616161;
   --color-light-grey: #7c7979;
+  --color-very-light-grey: #d4d0d0;
   --color-blue: #73aace;
   --color-yellow: #fff7d1;
   --color-orange: #feb546;
@@ -30,6 +31,9 @@
   /* Animation */
   --animation-duration: 300ms;
   --transition-default: all var(--animation-duration) ease;
+
+  /* Border */
+  --border-radius: 5px;
 }
 
 /* Universal tags */
@@ -89,6 +93,7 @@ header {
 }
 .register__input {
   min-width: 300px;
+  border-radius: var(--border-radius);
 }
 .register__btn {
   outline: none;
@@ -100,6 +105,8 @@ header {
   border: 1px solid transparent;
   transition: var(--transition-default);
   cursor: pointer;
+  border-radius: var(--border-radius);
+  user-select: none;
 }
 
 .register__btn:hover {
@@ -139,15 +146,20 @@ header {
   box-shadow: 5px 5px 10px var(--color-light-grey);
   width: 400px;
   height: 100%;
+  border-radius: var(--border-radius);
 }
+
 .board__header {
   background-color: var(--color-light-cadet-blue);
-  color: var(--color-light-white);
+  color: var(--color-white);
   text-align: center;
   font-size: var(--font-medium);
   transition: var(--transition-default);;
   cursor: pointer;
-  border: 3px solid transparent
+  border: 3px solid transparent;
+  border-top-right-radius: var(--border-radius);
+  border-top-left-radius: var(--border-radius);
+  user-select: none;
 }
 
 .board__header:hover {
@@ -158,6 +170,10 @@ header {
   border: 3px solid var(--color-dark-grey);
 }
 
+.board__items.dragging .item.empty {
+  visibility: visible;
+}
+
 .item {
   padding: 10px;
   font-size: var(--font-medium);
@@ -165,10 +181,25 @@ header {
   justify-content: space-between;
   opacity: 1;
   transition: var(--transition-default);
+  border: 2px solid var(--color-light-grey);
+  border-radius: var(--border-radius);
+  margin: 10px;
+  cursor: pointer;
 }
 
 .item.create {
   opacity: 0;
+}
+
+.item.empty {
+  visibility: hidden;
+  background-color: var(--color-very-light-grey);
+  border: none;
+  transition: none;
+}
+
+.item.empty i{
+  visibility: hidden;
 }
 
 .item__remove {
