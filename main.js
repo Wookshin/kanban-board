@@ -7,6 +7,7 @@ var boardsContainer = document.querySelector(".boards__container");
 var boardHeaders = document.querySelectorAll(".board__header");
 var boardsBtns = document.querySelector(".boards__btns");
 var boards = document.querySelectorAll(".board");
+var boardPlus = document.querySelector(".board-plus");
 var _dragged;
 var _dropzone;
 
@@ -47,49 +48,85 @@ boardsContainer.addEventListener("click", (e) => {
 });
 
 /* Board를 추가하거나 삭제할 수 있다 */
-boardsBtns.addEventListener("click", e => {
+boardsBtns.addEventListener("click", (e) => {
   var target = e.target;
-  if (target.matches(".fa-plus-circle") || target.matches(".boards__btns-add")) {
+  if (
+    target.matches(".fa-plus-circle") ||
+    target.matches(".boards__btns-add")
+  ) {
     addBoard();
-  }
-  else if (target.matches(".fa-minus-circle") || target.matches(".boards__btns-remove")) {
+  } else if (
+    target.matches(".fa-minus-circle") ||
+    target.matches(".boards__btns-remove")
+  ) {
     removeBoard();
   }
 
   updateGlobalVariable();
-})
+});
 
 /* board title을 클릭하면 title 내용을 변경할 수 있다 */
-boardsContainer.addEventListener("click", e => {
+boardsContainer.addEventListener("click", (e) => {
   let target = e.target;
   if (target.matches(".header__title")) {
-    target.classList.add('focused');
+    target.classList.add("focused");
   }
-})
+});
 
-boardsContainer.addEventListener("keydown", e => {
+boardsContainer.addEventListener("keydown", (e) => {
   let target = e.target;
   if (target.matches(".header__title")) {
-    if (e.key == 'Enter') {
+    if (e.key == "Enter") {
       target.blur();
     }
   }
-})
+});
 
-boardsContainer.addEventListener("blur", e => {
+boardsContainer.addEventListener(
+  "blur",
+  (e) => {
+    let target = e.target;
+    if (target.matches(".header__title")) {
+      target.classList.remove("focused");
+    }
+  },
+  true
+);
+
+/* board 플러스 버튼을 클릭하면 새로운 보드가 생성된다 */
+boardsContainer.addEventListener("click", (e) => {
   let target = e.target;
-  if (target.matches(".header__title")) {
-    target.classList.remove('focused');
+  if (target.matches(".board-plus")) {
+    addBoard();
+    updateGlobalVariable();
   }
-}, true)
+});
+
+/* board header에 있는 X 버튼을 누르면 해당 board가 삭제된다 */
+boardsContainer.addEventListener("click", (e) => {
+  let target = e.target;
+  console.log(target);
+  if (target.matches(".header__remove") || target.matches(".fa-times")) {
+    let board = null;
+    if (target.matches(".header__remove")) {
+      board = target.parentElement.parentElement;
+    } else if (target.matches(".fa-times")) {
+      board = target.parentElement.parentElement.parentElement;
+    }
+
+    board.classList.add("active");
+    removeBoard();
+    updateGlobalVariable();
+  }
+});
 
 /* Todo를 클릭하면 finished 처리가 된다 */
-boardsContainer.addEventListener("click", e => {
+boardsContainer.addEventListener("click", (e) => {
   let target = e.target;
   if (target.matches(".item")) {
-    target.classList.toggle('finished');
+    target.classList.toggle("finished");
   }
-})
+});
 
 /* Todo를 드래그하여 다른 Board로 옮길 수 있다 */
 boardsContainer.addEventListener(
@@ -167,8 +204,8 @@ boardsContainer.addEventListener(
 
 function insertTodoIntoBoard(board, todo) {
   let item = typeof todo === "string" ? createTodoItem(todo) : todo;
-  let boardItems = board.querySelector('.board__items');
-  let emptyItem = boardItems.querySelector('.item.empty');
+  let boardItems = board.querySelector(".board__items");
+  let emptyItem = boardItems.querySelector(".item.empty");
   boardItems.insertBefore(item, emptyItem);
   setTimeout(() => {
     item.classList.remove("create");
@@ -192,7 +229,7 @@ function addTodo() {
   if (todo === "") {
     return;
   }
-    
+
   var activeBoard = getActiveBoard();
   insertTodoIntoBoard(activeBoard, todo);
   registerInput.value = "";
@@ -202,8 +239,8 @@ function getActiveBoard() {
   var activeBoard = document.querySelector(".board.active");
 
   if (activeBoard == null) {
-    activeBoard = document.querySelector('.board');
-  } 
+    activeBoard = document.querySelector(".board");
+  }
 
   return activeBoard;
 }
@@ -244,10 +281,12 @@ function getLeaveDropZone(target) {
 }
 
 function addBoard() {
-  var board = document.createElement('div');
-  board.classList.add('board');
+  var board = document.createElement("div");
+  board.classList.add("board");
   board.innerHTML = `
-    <div class="board__header"><span class="header__title" contenteditable="true">New Board</span></div>
+    <div class="board__header">
+      <span class="header__title" contenteditable="true">New Board</span>
+      <button class="header__remove"><i class="fas fa-times"></i></button></div>
     <div class="board__items">
       <div class="item empty" >
         <span class="item__content"></span>
@@ -255,7 +294,8 @@ function addBoard() {
       </div>
     </div>
   `;
-  boardsContainer.appendChild(board);
+
+  boardsContainer.insertBefore(board, boardPlus);
 }
 
 function removeBoard() {
@@ -263,7 +303,6 @@ function removeBoard() {
   if (activeBoard == null) {
     return;
   }
-
   boardsContainer.removeChild(activeBoard);
 }
 
