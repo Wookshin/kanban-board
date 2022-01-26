@@ -5,6 +5,7 @@ var registerInput = document.querySelector(".register__input");
 var registerBtn = document.querySelector(".register__btn");
 var boardsContainer = document.querySelector(".boards__container");
 var boardHeaders = document.querySelectorAll(".board__header");
+var boardsBtns = document.querySelector(".boards__btns");
 var boards = document.querySelectorAll(".board");
 var _dragged;
 var _dropzone;
@@ -12,13 +13,13 @@ var _dropzone;
 /* 텍스트 박스에 To-do를 입력 후 엔터를 쳤을 때 active Board Or 첫번째 Board에 반영된다 */
 registerInput.addEventListener("keydown", (e) => {
   if (e.key === "Enter") {
-    addToDo();
+    addTodo();
   }
 });
 
 /* 텍스트 박스에 To-do를 입력 후 Add 버튼을 눌렀을 때 active Board Or 첫번째 Board에 반영된다 */
 registerBtn.addEventListener("click", () => {
-  addToDo();
+  addTodo();
 });
 
 /* 휴지통 아이콘을 누르면 해당 아이템이 삭제된다 */
@@ -45,9 +46,50 @@ boardsContainer.addEventListener("click", (e) => {
   }
 });
 
+/* Board를 추가하거나 삭제할 수 있다 */
+boardsBtns.addEventListener("click", e => {
+  var target = e.target;
+  if (target.matches(".fa-plus-circle") || target.matches(".boards__btns-add")) {
+    addBoard();
+  }
+  else if (target.matches(".fa-minus-circle") || target.matches(".boards__btns-remove")) {
+    removeBoard();
+  }
+
+  updateGlobalVariable();
+})
+
 /* board title을 클릭하면 title 내용을 변경할 수 있다 */
-//https://lasdri.tistory.com/1237 
-//blur, keypress 처리하기
+boardsContainer.addEventListener("click", e => {
+  let target = e.target;
+  if (target.matches(".header__title")) {
+    target.classList.add('focused');
+  }
+})
+
+boardsContainer.addEventListener("keydown", e => {
+  let target = e.target;
+  if (target.matches(".header__title")) {
+    if (e.key == 'Enter') {
+      target.blur();
+    }
+  }
+})
+
+boardsContainer.addEventListener("blur", e => {
+  let target = e.target;
+  if (target.matches(".header__title")) {
+    target.classList.remove('focused');
+  }
+}, true)
+
+/* Todo를 클릭하면 finished 처리가 된다 */
+boardsContainer.addEventListener("click", e => {
+  let target = e.target;
+  if (target.matches(".item")) {
+    target.classList.toggle('finished');
+  }
+})
 
 /* Todo를 드래그하여 다른 Board로 옮길 수 있다 */
 boardsContainer.addEventListener(
@@ -80,7 +122,7 @@ boardsContainer.addEventListener(
   (e) => {
     e.preventDefault();
     console.log("dragenter1", e.target);
-    var target = getEnterDropZone(e.target);
+    var target = getDropZone(e.target);
     console.log("dragenter2", target);
 
     if (!target || target === _dragged.parentElement) {
@@ -116,17 +158,18 @@ boardsContainer.addEventListener(
     console.log("_dragged", _dragged);
     console.log("_dropzone", _dropzone);
 
-    addTodoIntoBoard(_dropzone, _dragged);
+    insertTodoIntoBoard(_dropzone, _dragged);
     _dragged = null;
     _dropzone = null;
   },
   false
 );
 
-function addTodoIntoBoard(board, todo) {
+function insertTodoIntoBoard(board, todo) {
   let item = typeof todo === "string" ? createTodoItem(todo) : todo;
-  let emptyItem = board.lastElementChild;
-  board.insertBefore(item, emptyItem);
+  let boardItems = board.querySelector('.board__items');
+  let emptyItem = boardItems.querySelector('.item.empty');
+  boardItems.insertBefore(item, emptyItem);
   setTimeout(() => {
     item.classList.remove("create");
   }, 100);
@@ -144,47 +187,43 @@ function createTodoItem(todo) {
   return item;
 }
 
-function addTodoBySelector(selector) {
+function addTodo() {
   let todo = registerInput.value;
-  if (todo === "") return;
-  let firstBoard = document.querySelector(selector);
-  addTodoIntoBoard(firstBoard, todo);
-  registerInput.value = "";
-}
-
-function addTodoByElement(elem) {
-  let todo = registerInput.value;
-  if (todo === "") return;
-  addTodoIntoBoard(elem, todo);
-  registerInput.value = "";
-}
-
-function addToDo() {
-  var activeHeader = document.querySelector(".board__header.active");
-
-  if (activeHeader == null) {
-    addTodoBySelector(".board__items");
-  } else {
-    addTodoByElement(activeHeader.parentElement.children[1]);
+  if (todo === "") {
+    return;
   }
+    
+  var activeBoard = getActiveBoard();
+  insertTodoIntoBoard(activeBoard, todo);
+  registerInput.value = "";
 }
 
-function getEnterDropZone(target) {
+function getActiveBoard() {
+  var activeBoard = document.querySelector(".board.active");
+
+  if (activeBoard == null) {
+    activeBoard = document.querySelector('.board');
+  } 
+
+  return activeBoard;
+}
+
+function getDropZone(target) {
   let dropZone = null;
 
   if (target.matches(".board")) {
-    dropZone = target.children[1];
-  } else if (target.matches(".board__items")) {
     dropZone = target;
-  } else if (target.matches(".item")) {
+  } else if (target.matches(".board__items")) {
     dropZone = target.parentElement;
+  } else if (target.matches(".item")) {
+    dropZone = target.parentElement.parentElement;
   } else if (
     target.matches(".item__content") ||
     target.matches(".item__remove")
   ) {
-    dropZone = target.parentElement.parentElement;
-  } else if (target.matches(".fa-trash-alt")) {
     dropZone = target.parentElement.parentElement.parentElement;
+  } else if (target.matches(".fa-trash-alt")) {
+    dropZone = target.parentElement.parentElement.parentElement.parentElement;
   }
 
   return dropZone;
@@ -202,4 +241,33 @@ function getLeaveDropZone(target) {
   }
 
   return dropzone;
+}
+
+function addBoard() {
+  var board = document.createElement('div');
+  board.classList.add('board');
+  board.innerHTML = `
+    <div class="board__header"><span class="header__title" contenteditable="true">New Board</span></div>
+    <div class="board__items">
+      <div class="item empty" >
+        <span class="item__content"></span>
+        <span class="item__remove"><i class="far fa-trash-alt"></i></span>
+      </div>
+    </div>
+  `;
+  boardsContainer.appendChild(board);
+}
+
+function removeBoard() {
+  var activeBoard = document.querySelector(".board.active");
+  if (activeBoard == null) {
+    return;
+  }
+
+  boardsContainer.removeChild(activeBoard);
+}
+
+function updateGlobalVariable() {
+  boardHeaders = document.querySelectorAll(".board__header");
+  boards = document.querySelectorAll(".board");
 }
