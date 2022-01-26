@@ -96,6 +96,10 @@ boardsContainer.addEventListener(
 /* board 플러스 버튼을 클릭하면 새로운 보드가 생성된다 */
 boardsContainer.addEventListener("click", (e) => {
   let target = e.target;
+  if (target.matches(".fa-plus-circle")) {
+    target = target.parentElement.parentElement;
+  }
+
   if (target.matches(".board-plus")) {
     addBoard();
     updateGlobalVariable();
@@ -309,4 +313,57 @@ function removeBoard() {
 function updateGlobalVariable() {
   boardHeaders = document.querySelectorAll(".board__header");
   boards = document.querySelectorAll(".board");
+}
+
+function saveDatas() {
+  var datas = {boards: []};
+  boards.forEach(board => {
+    let data = {title: '', items: []};
+    data.title = board.querySelector('.header__title').textContent;
+    let items = board.querySelectorAll('.item:not(.empty)');
+    items.forEach(item => {
+      data.items.push({content: item.firstElementChild.textContent, finished: item.classList.contains('finished')});
+    })
+    datas.boards.push(data);
+  });
+  
+  localStorage.setItem('datas', JSON.stringify(datas));
+}
+
+function loadDatas() {
+  var datas = JSON.parse(localStorage.getItem('datas'));
+  boardsContainer.innerHTML = `
+    ${datas.boards.map(board => `
+      <div class="board">
+          <div class="board__header"><span class="header__title" contenteditable="true">${board.title}</span><button class="header__remove"><i class="fas fa-times"></i></button></div>
+          <div class="board__items">
+            ${board.items.map(item => `
+            <div class="item ${item.finished? 'finished':''}" draggable="true">
+              <span class="item__content">${item.content}</span>
+              <span class="item__remove"><i class="far fa-trash-alt"></i></span>
+            </div>  
+            `).join('')}
+            <div class="item empty" >
+              <span class="item__content"></span>
+              <span class="item__remove"><i class="far fa-trash-alt"></i></span>
+            </div>
+          </div>
+        </div>
+    `).join('')}
+    <div class="board-plus">
+      <button class="board-plus__btn">
+        <i class="fas fa-plus-circle"></i>
+      </button>
+    </div>
+  `;
+
+  updateAllGlobalVariable();
+}
+
+function updateAllGlobalVariable() {
+  boardsContainer = document.querySelector(".boards__container");
+  boardHeaders = document.querySelectorAll(".board__header");
+  boardsBtns = document.querySelector(".boards__btns");
+  boards = document.querySelectorAll(".board");
+  boardPlus = document.querySelector(".board-plus");
 }
