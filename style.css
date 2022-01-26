@@ -176,7 +176,7 @@ header {
 
 .header__title {
   outline: none;
-  flex-grow: 1;
+  margin: 0 auto;
 }
 
 .header__title:hover {
@@ -272,7 +272,7 @@ header {
   top:0;
   left:0;
   height: 100%;
-  width: 100%;
+  width: 85%;
   transform: translateY(-50%);
   border-bottom: 2px solid var(--color-dark-grey);
 }
