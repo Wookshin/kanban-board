@@ -202,6 +202,22 @@ header {
   opacity: 0;
 }
 
+.item.finished {
+  position: relative;
+  opacity: .5;
+}
+
+.item.finished:after {
+  position: absolute;
+  content: '';
+  top:0;
+  left:0;
+  height: 100%;
+  width: 100%;
+  transform: translateY(-50%);
+  border-bottom: 2px solid var(--color-dark-grey);
+}
+
 .item.empty {
   visibility: hidden;
   background-color: var(--color-very-light-grey);

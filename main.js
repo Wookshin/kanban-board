@@ -46,8 +46,6 @@ boardsContainer.addEventListener("click", (e) => {
 });
 
 /* board title을 클릭하면 title 내용을 변경할 수 있다 */
-//https://lasdri.tistory.com/1237 
-//blur, keypress 처리하기
 boardsContainer.addEventListener("click", e => {
   let target = e.target;
   if (target.matches(".header__title")) {
@@ -70,6 +68,14 @@ boardsContainer.addEventListener("blur", e => {
     target.classList.remove('focused');
   }
 }, true)
+
+/* Todo를 클릭하면 finished 처리가 된다 */
+boardsContainer.addEventListener("click", e => {
+  let target = e.target;
+  if (target.matches(".item")) {
+    target.classList.toggle('finished');
+  }
+})
 
 /* Todo를 드래그하여 다른 Board로 옮길 수 있다 */
 boardsContainer.addEventListener(
