@@ -139,17 +139,21 @@ header {
 }
 .boards__container {
   display: flex;
+  flex-wrap: wrap;
 }
 
 /* board */
 .board {
   margin-right: 10px;
+  margin-bottom: 15px;
   box-shadow: 5px 5px 10px var(--color-light-grey);
   width: 400px;
   height: 100%;
   border-radius: var(--border-radius);
   transition: var(--transition-default);
   cursor: pointer;
+  max-width: 600px;
+  flex-grow: 1;
 }
 
 .board.active .board__header {

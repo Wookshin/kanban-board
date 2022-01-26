@@ -5,6 +5,7 @@ var registerInput = document.querySelector(".register__input");
 var registerBtn = document.querySelector(".register__btn");
 var boardsContainer = document.querySelector(".boards__container");
 var boardHeaders = document.querySelectorAll(".board__header");
+var boardsBtns = document.querySelector(".boards__btns");
 var boards = document.querySelectorAll(".board");
 var _dragged;
 var _dropzone;
@@ -44,6 +45,19 @@ boardsContainer.addEventListener("click", (e) => {
     });
   }
 });
+
+/* Board를 추가하거나 삭제할 수 있다 */
+boardsBtns.addEventListener("click", e => {
+  var target = e.target;
+  if (target.matches(".fa-plus-circle") || target.matches(".boards__btns-add")) {
+    addBoard();
+  }
+  else if (target.matches(".fa-minus-circle") || target.matches(".boards__btns-remove")) {
+    removeBoard();
+  }
+
+  updateGlobalVariable();
+})
 
 /* board title을 클릭하면 title 내용을 변경할 수 있다 */
 boardsContainer.addEventListener("click", e => {
@@ -227,4 +241,33 @@ function getLeaveDropZone(target) {
   }
 
   return dropzone;
+}
+
+function addBoard() {
+  var board = document.createElement('div');
+  board.classList.add('board');
+  board.innerHTML = `
+    <div class="board__header"><span class="header__title" contenteditable="true">New Board</span></div>
+    <div class="board__items">
+      <div class="item empty" >
+        <span class="item__content"></span>
+        <span class="item__remove"><i class="far fa-trash-alt"></i></span>
+      </div>
+    </div>
+  `;
+  boardsContainer.appendChild(board);
+}
+
+function removeBoard() {
+  var activeBoard = document.querySelector(".board.active");
+  if (activeBoard == null) {
+    return;
+  }
+
+  boardsContainer.removeChild(activeBoard);
+}
+
+function updateGlobalVariable() {
+  boardHeaders = document.querySelectorAll(".board__header");
+  boards = document.querySelectorAll(".board");
 }
