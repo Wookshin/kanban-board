@@ -19,6 +19,7 @@
   --color-dark-cadet-blue: #1f9ea0;
   --color-apricot: #fa9978;
   --color-olive: #A39334;
+  --color-green: rgb(47, 151, 47);
 
   /* Font size */
   --font-large: 48px;
@@ -147,12 +148,12 @@ header {
   width: 400px;
   height: 100%;
   border-radius: var(--border-radius);
-  border: 3px solid transparent;
   transition: var(--transition-default);
+  cursor: pointer;
 }
 
-.board.active {
-  border: 3px solid var(--color-dark-grey);
+.board.active .board__header {
+  background-color: var(--color-green);
 }
 
 .board__header {

@@ -12,13 +12,13 @@ var _dropzone;
 /* 텍스트 박스에 To-do를 입력 후 엔터를 쳤을 때 active Board Or 첫번째 Board에 반영된다 */
 registerInput.addEventListener("keydown", (e) => {
   if (e.key === "Enter") {
-    addToDo();
+    addTodo();
   }
 });
 
 /* 텍스트 박스에 To-do를 입력 후 Add 버튼을 눌렀을 때 active Board Or 첫번째 Board에 반영된다 */
 registerBtn.addEventListener("click", () => {
-  addToDo();
+  addTodo();
 });
 
 /* 휴지통 아이콘을 누르면 해당 아이템이 삭제된다 */
@@ -116,17 +116,18 @@ boardsContainer.addEventListener(
     console.log("_dragged", _dragged);
     console.log("_dropzone", _dropzone);
 
-    addTodoIntoBoard(_dropzone, _dragged);
+    insertTodoIntoBoard(_dropzone, _dragged);
     _dragged = null;
     _dropzone = null;
   },
   false
 );
 
-function addTodoIntoBoard(board, todo) {
+function insertTodoIntoBoard(board, todo) {
   let item = typeof todo === "string" ? createTodoItem(todo) : todo;
-  let emptyItem = board.lastElementChild;
-  board.insertBefore(item, emptyItem);
+  let boardItems = board.querySelector('.board__items');
+  let emptyItem = boardItems.querySelector('.item.empty');
+  boardItems.insertBefore(item, emptyItem);
   setTimeout(() => {
     item.classList.remove("create");
   }, 100);
@@ -144,29 +145,25 @@ function createTodoItem(todo) {
   return item;
 }
 
-function addTodoBySelector(selector) {
+function addTodo() {
   let todo = registerInput.value;
-  if (todo === "") return;
-  let firstBoard = document.querySelector(selector);
-  addTodoIntoBoard(firstBoard, todo);
-  registerInput.value = "";
-}
-
-function addTodoByElement(elem) {
-  let todo = registerInput.value;
-  if (todo === "") return;
-  addTodoIntoBoard(elem, todo);
-  registerInput.value = "";
-}
-
-function addToDo() {
-  var activeHeader = document.querySelector(".board__header.active");
-
-  if (activeHeader == null) {
-    addTodoBySelector(".board__items");
-  } else {
-    addTodoByElement(activeHeader.parentElement.children[1]);
+  if (todo === "") {
+    return;
   }
+    
+  var activeBoard = getActiveBoard();
+  insertTodoIntoBoard(activeBoard, todo);
+  registerInput.value = "";
+}
+
+function getActiveBoard() {
+  var activeBoard = document.querySelector(".board.active");
+
+  if (activeBoard == null) {
+    activeBoard = document.querySelector('.board');
+  } 
+
+  return activeBoard;
 }
 
 function getEnterDropZone(target) {
