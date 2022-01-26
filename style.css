@@ -209,7 +209,7 @@ header {
 }
 
 .board-plus {
-  margin: auto;
+  margin: auto 0px;
   width: 400px;
   min-height: 260px;
   max-width: 600px;
