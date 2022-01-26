@@ -48,6 +48,28 @@ boardsContainer.addEventListener("click", (e) => {
 /* board title을 클릭하면 title 내용을 변경할 수 있다 */
 //https://lasdri.tistory.com/1237 
 //blur, keypress 처리하기
+boardsContainer.addEventListener("click", e => {
+  let target = e.target;
+  if (target.matches(".header__title")) {
+    target.classList.add('focused');
+  }
+})
+
+boardsContainer.addEventListener("keydown", e => {
+  let target = e.target;
+  if (target.matches(".header__title")) {
+    if (e.key == 'Enter') {
+      target.blur();
+    }
+  }
+})
+
+boardsContainer.addEventListener("blur", e => {
+  let target = e.target;
+  if (target.matches(".header__title")) {
+    target.classList.remove('focused');
+  }
+}, true)
 
 /* Todo를 드래그하여 다른 Board로 옮길 수 있다 */
 boardsContainer.addEventListener(
@@ -80,7 +102,7 @@ boardsContainer.addEventListener(
   (e) => {
     e.preventDefault();
     console.log("dragenter1", e.target);
-    var target = getEnterDropZone(e.target);
+    var target = getDropZone(e.target);
     console.log("dragenter2", target);
 
     if (!target || target === _dragged.parentElement) {
@@ -166,22 +188,22 @@ function getActiveBoard() {
   return activeBoard;
 }
 
-function getEnterDropZone(target) {
+function getDropZone(target) {
   let dropZone = null;
 
   if (target.matches(".board")) {
-    dropZone = target.children[1];
-  } else if (target.matches(".board__items")) {
     dropZone = target;
-  } else if (target.matches(".item")) {
+  } else if (target.matches(".board__items")) {
     dropZone = target.parentElement;
+  } else if (target.matches(".item")) {
+    dropZone = target.parentElement.parentElement;
   } else if (
     target.matches(".item__content") ||
     target.matches(".item__remove")
   ) {
-    dropZone = target.parentElement.parentElement;
-  } else if (target.matches(".fa-trash-alt")) {
     dropZone = target.parentElement.parentElement.parentElement;
+  } else if (target.matches(".fa-trash-alt")) {
+    dropZone = target.parentElement.parentElement.parentElement.parentElement;
   }
 
   return dropZone;

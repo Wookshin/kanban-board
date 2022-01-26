@@ -176,7 +176,12 @@ header {
   outline: none;
 }
 
-.board__items.dragging .item.empty {
+.header__title.focused {
+  outline: 4px dashed var(--color-olive);
+  padding: 0px 10px;
+}
+
+.board.dragging .item.empty {
   visibility: visible;
 }
 
