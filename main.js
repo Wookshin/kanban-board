@@ -72,15 +72,15 @@ boardsBtns.addEventListener("click", (e) => {
     target.matches(".boards__btns-add")
   ) {
     addBoard();
-    saveDatas();
     updateGlobalVariable();
+    saveDatas();
   } else if (
     target.matches(".btns-minus__icon") ||
     target.matches(".boards__btns-remove")
   ) {
     removeBoard();
-    saveDatas();
     updateGlobalVariable();
+    saveDatas();
   }
 });
 
@@ -122,8 +122,8 @@ boardsContainer.addEventListener("click", (e) => {
 
   if (target.matches(".board-plus")) {
     addBoard();
-    saveDatas();
     updateGlobalVariable();
+    saveDatas();
   }
 });
 
@@ -140,8 +140,8 @@ boardsContainer.addEventListener("click", (e) => {
 
     board.classList.add("active");
     removeBoard();
-    saveDatas();
     updateGlobalVariable();
+    saveDatas();
   }
 });
 
