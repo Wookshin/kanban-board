@@ -11,24 +11,31 @@ var boardPlus = document.querySelector(".board-plus");
 var _dragged;
 var _dropzone;
 
+/* localStorage에 저장된 datas가 있다면 해당 datas를 반영한다. */
+if (localStorage.key("datas")) {
+  loadDatas();
+}
+
 /* 텍스트 박스에 To-do를 입력 후 엔터를 쳤을 때 active Board Or 첫번째 Board에 반영된다 */
 registerInput.addEventListener("keydown", (e) => {
   if (e.key === "Enter") {
     addTodo();
+    saveDatas();
   }
 });
 
 /* 텍스트 박스에 To-do를 입력 후 Add 버튼을 눌렀을 때 active Board Or 첫번째 Board에 반영된다 */
 registerBtn.addEventListener("click", () => {
   addTodo();
+  saveDatas();
 });
 
 /* 휴지통 아이콘을 누르면 해당 아이템이 삭제된다 */
 boardsContainer.addEventListener("click", (e) => {
   if (e.target.matches(".fa-trash-alt")) {
     var item = e.target.parentElement.parentElement;
-    console.log(e.target);
     item.parentElement.removeChild(item);
+    saveDatas();
   }
 });
 
@@ -50,19 +57,22 @@ boardsContainer.addEventListener("click", (e) => {
 /* Board를 추가하거나 삭제할 수 있다 */
 boardsBtns.addEventListener("click", (e) => {
   var target = e.target;
+
   if (
     target.matches(".fa-plus-circle") ||
     target.matches(".boards__btns-add")
   ) {
     addBoard();
+    saveDatas();
+    updateGlobalVariable();
   } else if (
     target.matches(".fa-minus-circle") ||
     target.matches(".boards__btns-remove")
   ) {
     removeBoard();
+    saveDatas();
+    updateGlobalVariable();
   }
-
-  updateGlobalVariable();
 });
 
 /* board title을 클릭하면 title 내용을 변경할 수 있다 */
@@ -88,6 +98,7 @@ boardsContainer.addEventListener(
     let target = e.target;
     if (target.matches(".header__title")) {
       target.classList.remove("focused");
+      saveDatas();
     }
   },
   true
@@ -102,6 +113,7 @@ boardsContainer.addEventListener("click", (e) => {
 
   if (target.matches(".board-plus")) {
     addBoard();
+    saveDatas();
     updateGlobalVariable();
   }
 });
@@ -120,6 +132,7 @@ boardsContainer.addEventListener("click", (e) => {
 
     board.classList.add("active");
     removeBoard();
+    saveDatas();
     updateGlobalVariable();
   }
 });
@@ -129,6 +142,7 @@ boardsContainer.addEventListener("click", (e) => {
   let target = e.target;
   if (target.matches(".item")) {
     target.classList.toggle("finished");
+    saveDatas();
   }
 });
 
@@ -196,10 +210,9 @@ boardsContainer.addEventListener(
     if (!_dropzone) {
       return;
     }
-    console.log("_dragged", _dragged);
-    console.log("_dropzone", _dropzone);
 
     insertTodoIntoBoard(_dropzone, _dragged);
+    saveDatas();
     _dragged = null;
     _dropzone = null;
   },
@@ -316,40 +329,55 @@ function updateGlobalVariable() {
 }
 
 function saveDatas() {
-  var datas = {boards: []};
-  boards.forEach(board => {
-    let data = {title: '', items: []};
-    data.title = board.querySelector('.header__title').textContent;
-    let items = board.querySelectorAll('.item:not(.empty)');
-    items.forEach(item => {
-      data.items.push({content: item.firstElementChild.textContent, finished: item.classList.contains('finished')});
-    })
+  var datas = { boards: [] };
+  boards.forEach((board) => {
+    let data = { title: "", items: [] };
+    data.title = board.querySelector(".header__title").textContent;
+    let items = board.querySelectorAll(".item:not(.empty)");
+    items.forEach((item) => {
+      data.items.push({
+        content: item.firstElementChild.textContent,
+        finished: item.classList.contains("finished"),
+      });
+    });
     datas.boards.push(data);
   });
-  
-  localStorage.setItem('datas', JSON.stringify(datas));
+
+  localStorage.setItem("datas", JSON.stringify(datas));
 }
 
 function loadDatas() {
-  var datas = JSON.parse(localStorage.getItem('datas'));
+  var datas = JSON.parse(localStorage.getItem("datas"));
   boardsContainer.innerHTML = `
-    ${datas.boards.map(board => `
+    ${datas.boards
+      .map(
+        (board) => `
       <div class="board">
-          <div class="board__header"><span class="header__title" contenteditable="true">${board.title}</span><button class="header__remove"><i class="fas fa-times"></i></button></div>
+          <div class="board__header"><span class="header__title" contenteditable="true">${
+            board.title
+          }</span><button class="header__remove"><i class="fas fa-times"></i></button></div>
           <div class="board__items">
-            ${board.items.map(item => `
-            <div class="item ${item.finished? 'finished':''}" draggable="true">
+            ${board.items
+              .map(
+                (item) => `
+            <div class="item ${
+              item.finished ? "finished" : ""
+            }" draggable="true">
               <span class="item__content">${item.content}</span>
               <span class="item__remove"><i class="far fa-trash-alt"></i></span>
             </div>  
-            `).join('')}
+            `
+              )
+              .join("")}
             <div class="item empty" >
               <span class="item__content"></span>
               <span class="item__remove"><i class="far fa-trash-alt"></i></span>
             </div>
           </div>
         </div>
-    `).join('')}
+    `
+      )
+      .join("")}
     <div class="board-plus">
       <button class="board-plus__btn">
         <i class="fas fa-plus-circle"></i>

@@ -29,6 +29,9 @@
   --font-small: 16px;
   --font-micro: 14px;
 
+  /* size */
+  --board-size: 400px;
+
   /* Animation */
   --animation-duration: 300ms;
   --transition-default: all var(--animation-duration) ease;
@@ -147,12 +150,11 @@ header {
   margin-right: 10px;
   margin-bottom: 15px;
   box-shadow: 5px 5px 10px var(--color-light-grey);
-  width: 400px;
+  width: var(--board-size);
   height: 100%;
   border-radius: var(--border-radius);
   transition: var(--transition-default);
   cursor: pointer;
-  max-width: 600px;
   flex-grow: 1;
 }
 
@@ -209,10 +211,9 @@ header {
 }
 
 .board-plus {
-  margin: auto 0px;
-  width: 400px;
+  margin: 0 auto;
+  width: var(--board-size);
   min-height: 260px;
-  max-width: 600px;
   height: 100%;
   transition: var(--transition-default);
   cursor: pointer;
@@ -221,6 +222,7 @@ header {
   opacity: 0.2;
   border-radius: var(--border-radius);
   position: relative;
+  opacity: 0;
 }
 
 .board-plus__btn {
