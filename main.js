@@ -59,14 +59,14 @@ boardsBtns.addEventListener("click", (e) => {
   var target = e.target;
 
   if (
-    target.matches(".fa-plus-circle") ||
+    target.matches(".btns-add__icon") ||
     target.matches(".boards__btns-add")
   ) {
     addBoard();
     saveDatas();
     updateGlobalVariable();
   } else if (
-    target.matches(".fa-minus-circle") ||
+    target.matches(".btns-minus__icon") ||
     target.matches(".boards__btns-remove")
   ) {
     removeBoard();
@@ -107,7 +107,7 @@ boardsContainer.addEventListener(
 /* board 플러스 버튼을 클릭하면 새로운 보드가 생성된다 */
 boardsContainer.addEventListener("click", (e) => {
   let target = e.target;
-  if (target.matches(".fa-plus-circle")) {
+  if (target.matches(".board-plus__btn__icon")) {
     target = target.parentElement.parentElement;
   }
 
@@ -121,7 +121,6 @@ boardsContainer.addEventListener("click", (e) => {
 /* board header에 있는 X 버튼을 누르면 해당 board가 삭제된다 */
 boardsContainer.addEventListener("click", (e) => {
   let target = e.target;
-  console.log(target);
   if (target.matches(".header__remove") || target.matches(".fa-times")) {
     let board = null;
     if (target.matches(".header__remove")) {
@@ -140,9 +139,31 @@ boardsContainer.addEventListener("click", (e) => {
 /* Todo를 클릭하면 finished 처리가 된다 */
 boardsContainer.addEventListener("click", (e) => {
   let target = e.target;
-  if (target.matches(".item")) {
+  if (target.matches(".item:not(.empty)")) {
     target.classList.toggle("finished");
     saveDatas();
+  }
+});
+
+/* 빈공간의 Todo 플러스를 클릭하면 해당 Board가 Active 되고, Todo 입력란으로 Focus 된다. */
+boardsContainer.addEventListener("click", (e) => {
+  let target = e.target;
+
+  if (target.matches(".item-empty__btn__icon")) {
+    target = target.parentElement.parentElement;
+  }
+
+  if (target.matches(".item.empty")) {
+    let activeBoard = target.parentElement.parentElement;
+    boards.forEach((board) => {
+      if (board === activeBoard) {
+        board.classList.toggle("active");
+      } else {
+        board.classList.remove("active");
+      }
+    });
+
+    registerInput.focus();
   }
 });
 
@@ -306,8 +327,9 @@ function addBoard() {
       <button class="header__remove"><i class="fas fa-times"></i></button></div>
     <div class="board__items">
       <div class="item empty" >
-        <span class="item__content"></span>
-        <span class="item__remove"><i class="far fa-trash-alt"></i></span>
+        <button class="item-empty__btn">
+          <i class="item-empty__btn__icon fas fa-plus-circle"></i>
+        </button>
       </div>
     </div>
   `;
@@ -370,8 +392,9 @@ function loadDatas() {
               )
               .join("")}
             <div class="item empty" >
-              <span class="item__content"></span>
-              <span class="item__remove"><i class="far fa-trash-alt"></i></span>
+              <button class="item-empty__btn">
+                <i class="item-empty__btn__icon fas fa-plus-circle"></i>
+              </button>
             </div>
           </div>
         </div>
