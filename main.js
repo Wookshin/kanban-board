@@ -130,24 +130,39 @@ boardsContainer.addEventListener("click", (e) => {
 /* board header에 있는 X 버튼을 누르면 해당 board가 삭제된다 */
 boardsContainer.addEventListener("click", (e) => {
   let target = e.target;
-  if (target.matches(".header__remove") || target.matches(".fa-times")) {
-    let board = null;
-    if (target.matches(".header__remove")) {
-      board = target.parentElement.parentElement;
-    } else if (target.matches(".fa-times")) {
-      board = target.parentElement.parentElement.parentElement;
-    }
-
-    board.classList.add("active");
-    removeBoard();
-    updateGlobalVariable();
-    saveDatas();
+  
+  if (!target.matches(".header__remove") && !target.matches(".fa-times")) {
+    return;
   }
+  
+  let activeBoard = null;
+  if (target.matches(".header__remove")) {
+    activeBoard = target.parentElement.parentElement;
+  } else if (target.matches(".fa-times")) {
+    activeBoard = target.parentElement.parentElement.parentElement;
+  }
+
+  boards.forEach((board) => {
+    if (board === activeBoard) {
+      board.classList.toggle("active");
+    } else {
+      board.classList.remove("active");
+    }
+  });
+
+  removeBoard();
+  updateGlobalVariable();
+  saveDatas();
 });
 
 /* Todo를 클릭하면 finished 처리가 된다 */
 boardsContainer.addEventListener("click", (e) => {
   let target = e.target;
+
+  if (target.matches(".item__content")) {
+    target = target.parentElement;
+  }
+
   if (target.matches(".item:not(.empty)")) {
     target.classList.toggle("finished");
     saveDatas();
