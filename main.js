@@ -30,6 +30,15 @@ registerBtn.addEventListener("click", () => {
   saveDatas();
 });
 
+/* 텍스트 박스에 focus 되면, 텍스트 박스를 강조한다 */
+registerInput.addEventListener('focus', () => {
+  registerInput.classList.add('focused');
+})
+
+registerInput.addEventListener('blur', () => {
+  registerInput.classList.remove('focused');
+})
+
 /* 휴지통 아이콘을 누르면 해당 아이템이 삭제된다 */
 boardsContainer.addEventListener("click", (e) => {
   if (e.target.matches(".fa-trash-alt")) {
