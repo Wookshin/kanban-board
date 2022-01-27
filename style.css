@@ -162,6 +162,7 @@ header {
   background-color: var(--color-green);
 }
 
+/* board header */
 .board__header {
   background-color: var(--color-light-cadet-blue);
   color: var(--color-white);
@@ -206,10 +207,6 @@ header {
   padding: 0px 10px;
 }
 
-.board.dragging .item.empty {
-  visibility: visible;
-}
-
 .board-plus {
   margin: 0 auto;
   width: var(--board-size);
@@ -246,8 +243,11 @@ header {
   opacity: .3;
 }
 
+/* board item */
+
 .item {
   padding: 10px;
+  margin: 10px;
   font-size: var(--font-medium);
   display: flex;
   justify-content: space-between;
@@ -255,7 +255,6 @@ header {
   transition: var(--transition-default);
   border: 2px solid var(--color-light-grey);
   border-radius: var(--border-radius);
-  margin: 10px;
   cursor: pointer;
 }
 
@@ -280,14 +279,45 @@ header {
 }
 
 .item.empty {
-  visibility: hidden;
-  background-color: var(--color-very-light-grey);
-  border: none;
-  transition: none;
+  padding: 10px;
+  margin: 10px;
+  min-height: 80px;
+  transition: var(--transition-default);
+  cursor: pointer;
+  flex-grow: 1;
+  background-color: var(--color-light-grey);
+  border-radius: var(--border-radius);
+  position: relative;
+  opacity: 0;
 }
 
-.item.empty i{
-  visibility: hidden;
+.item.empty:hover {
+  opacity: .3;
+}
+
+.board.dragging .item.empty {
+  opacity: 0.3;
+}
+
+.board.dragging .item-empty__btn {
+  opacity: 0;
+  transition: none;;
+}
+
+.item-empty__btn {
+  outline: none;
+  font-weight: 800;
+  background-color: transparent;
+  font-size: var(--font-medium);
+  color: var(--color-black);
+  border: none;
+  transition: var(--transition-default);
+  cursor: pointer;
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 .item__remove {
