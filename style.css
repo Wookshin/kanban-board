@@ -95,10 +95,17 @@ header {
   margin: 20px 10px;
   height: 40px;
 }
+
 .register__input {
   min-width: 300px;
   border-radius: var(--border-radius);
+  /* border: 3px solid transparent; */
 }
+
+.register__input.focused {
+  border: 3px solid black;
+}
+
 .register__btn {
   outline: none;
   width: 80px;
@@ -244,7 +251,6 @@ header {
 }
 
 /* board item */
-
 .item {
   padding: 10px;
   margin: 10px;
