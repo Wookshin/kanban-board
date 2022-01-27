@@ -12,7 +12,7 @@ var _dragged;
 var _dropzone;
 
 /* localStorage에 저장된 datas가 있다면 해당 datas를 반영한다. */
-if (localStorage.key("datas")) {
+if (localStorage.getItem("datas")) {
   loadDatas();
 }
 
