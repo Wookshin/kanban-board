@@ -339,3 +339,19 @@ header {
 .fa-trash-alt {
   vertical-align: middle;
 }
+
+@media screen and (max-width: 768px) {
+  .header__logo {
+    padding: 5px;
+    padding-left: 10px;
+    font-size: var(--font-small);
+  }
+  #register {
+    margin-right: 20px;
+  }
+  .register__input {
+    min-width: 100px;
+    flex-grow: 1;
+  }
+  
+}
