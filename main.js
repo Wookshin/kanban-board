@@ -178,6 +178,12 @@ _boardsContainer.addEventListener('keydown', e => {
   }
 });
 
+_boardsContainer.addEventListener('blur', e => {
+  if (e.target.matches('.item__content')) {
+    saveSnapshot();
+  }
+}, true);
+
 /* 체크 박스를 누르면 해당 아이템을 완료 처리한다 */
 _boardsContainer.addEventListener('click', e => {
   let target = e.target;
