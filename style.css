@@ -130,8 +130,9 @@ header {
 }
 .boards__btns {
   display: flex;
-  justify-content: flex-end;  
-  margin-right: 10px;
+  justify-content: flex-start;  
+  margin-bottom: 10px;
+  
 }
 .boards__btns button {
   outline: none;
@@ -144,6 +145,7 @@ header {
   transition: var(--transition-default);
   cursor: pointer;
 }
+
 .boards__btns button:hover {
   color: darkolivegreen;
 }
