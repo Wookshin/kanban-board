@@ -41,23 +41,34 @@
           <i class="btn-rollback__icon fas fa-undo"></i>
         </button>
         <button class="boards__btns-add">
-          <i class="btns-add__icon fas fa-plus-circle"></i>
+          <i class="btns-add__icon fas fa-plus"></i>
         </button>
         <button class="boards__btns-remove">
-          <i class="btns-minus__icon fas fa-minus-circle"></i>
+          <i class="btns-minus__icon fas fa-minus"></i>
+        </button>
+        <button class="boards__btns-undo">
+          <i class="btns-undo__icon fas fa-undo-alt"></i>
+        </button>
+        <button class="boards__btns-redo">
+          <i class="btns-redo__icon fas fa-redo-alt"></i>
         </button>
       </div>
       <div class="boards__container">
         <div class="board">
-          <div class="board__header"><span class="header__title" contenteditable="true">Today TO-DO</span><button class="header__remove"><i class="fas fa-times"></i></button></div>
+          <div class="board__header">
+            <span class="header__title" contenteditable="true">Today TO-DO</span>
+            <button class="header__remove"><i class="fas fa-times"></i></button>
+          </div>
           <div class="board__items">
             <div class="item" draggable="true">
-              <span class="item__content">To do 1</span>
-              <span class="item__remove"><i class="far fa-trash-alt"></i></span>
+              <span class="item__content" contenteditable="true">To do 1</span>
+              <span class="item__check"><i class="item__check__icon fas fa-check"></i></span>
+              <span class="item__remove"><i class="item__remove__icon far fa-trash-alt"></i></span>
             </div>
             <div class="item" draggable="true">
-              <span class="item__content">To do 2</span>
-              <span class="item__remove"><i class="far fa-trash-alt"></i></span>
+              <span class="item__content" contenteditable="true">To do 2</span>
+              <span class="item__check"><i class="item__check__icon fas fa-check"></i></span>
+              <span class="item__remove"><i class="item__remove__icon far fa-trash-alt"></i></span>
             </div>
             <div class="item empty" >
               <button class="item-empty__btn">
@@ -70,12 +81,14 @@
           <div class="board__header"><span class="header__title" contenteditable="true">ASAP TO-DO</span><button class="header__remove"><i class="fas fa-times"></i></button></div>
           <div class="board__items">
             <div class="item" draggable="true">
-              <span class="item__content">To do 3</span>
-              <span class="item__remove"><i class="far fa-trash-alt"></i></span>
+              <span class="item__content" contenteditable="true">To do 3</span>
+              <span class="item__check"><i class="item__check__icon fas fa-check"></i></span>
+              <span class="item__remove"><i class="item__remove__icon far fa-trash-alt"></i></span>
             </div>
             <div class="item" draggable="true">
-              <span class="item__content">To do 4</span>
-              <span class="item__remove"><i class="far fa-trash-alt"></i></span>
+              <span class="item__content" contenteditable="true">To do 4</span>
+              <span class="item__check"><i class="item__check__icon fas fa-check"></i></span>
+              <span class="item__remove"><i class="item__remove__icon far fa-trash-alt"></i></span>
             </div>
             <div class="item empty" >
               <button class="item-empty__btn">
