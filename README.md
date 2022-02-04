@@ -1,6 +1,6 @@
 # 칸반보드
 
-<img src="https://wookshin.github.io/portfolio/imgs/projects/kanban.png" width="400px" height="400px" title="kanban board" />
+<img src="https://wookshin.github.io/portfolio/imgs/projects/kanban.png" title="kanban board" />
 
 <br/>
 
