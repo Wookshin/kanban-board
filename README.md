@@ -30,6 +30,7 @@
 ## 구현하고 싶은 기능
  
 - oauth 활용한 save/load
+- 중간 위치 드래그 기능
 - board를 관리하는 page(sheet) 
 - snapshot 관리 
 - 여럿이 작업할 수 있는 기능 
